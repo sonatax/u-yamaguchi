@@ -1,0 +1,499 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>山口県 熊出没マップ</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f5f7f4;
+      --panel: #ffffff;
+      --text: #1e2720;
+      --muted: #647067;
+      --line: #dbe3dc;
+      --r6: #d94841;
+      --r7: #2563eb;
+      --accent: #1f7a4d;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .app {
+      display: grid;
+      grid-template-columns: minmax(300px, 360px) 1fr;
+      min-height: 100vh;
+    }
+
+    aside {
+      background: var(--panel);
+      border-right: 1px solid var(--line);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      overflow: auto;
+      max-height: 100vh;
+    }
+
+    h1 {
+      font-size: 22px;
+      line-height: 1.25;
+      margin: 0;
+      letter-spacing: 0;
+    }
+
+    .lead {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 650;
+      margin-bottom: 7px;
+    }
+
+    input[type="password"], input[type="search"] {
+      width: 100%;
+      min-height: 40px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 8px 10px;
+      font: inherit;
+      color: var(--text);
+      background: #fff;
+    }
+
+    button {
+      min-height: 40px;
+      border: 0;
+      border-radius: 6px;
+      padding: 8px 12px;
+      background: var(--accent);
+      color: #fff;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    button.secondary {
+      background: #e9eee9;
+      color: var(--text);
+    }
+
+    .row {
+      display: flex;
+      gap: 8px;
+    }
+
+    .row > * { flex: 1; }
+
+    .legend, .stats, .filters {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      background: #fbfcfb;
+    }
+
+    .legend-item, .stat-line, .check-line {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      min-height: 28px;
+      font-size: 14px;
+    }
+
+    .legend-name, .check-name {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 999px;
+      border: 2px solid #fff;
+      box-shadow: 0 0 0 1px rgba(0, 0, 0, .18);
+      flex: 0 0 auto;
+    }
+
+    .muted {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .status {
+      min-height: 38px;
+      padding: 10px 12px;
+      border-radius: 6px;
+      background: #eef5ef;
+      color: #27533a;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .status.error {
+      background: #fff1f0;
+      color: #a12822;
+    }
+
+    #map {
+      min-height: 100vh;
+      width: 100%;
+    }
+
+    .info {
+      max-width: 320px;
+      line-height: 1.55;
+    }
+
+    .info h2 {
+      font-size: 16px;
+      margin: 0 0 6px;
+    }
+
+    .info dl {
+      margin: 0;
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      gap: 4px 10px;
+      font-size: 13px;
+    }
+
+    .info dt { color: #5f6d63; }
+    .info dd { margin: 0; }
+
+    @media (max-width: 820px) {
+      .app {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto minmax(70vh, 1fr);
+      }
+
+      aside {
+        max-height: none;
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      #map { min-height: 70vh; }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <aside>
+      <header>
+        <h1>山口県 熊出没マップ</h1>
+        <p class="lead">CSV データを読み込み、出没地点を年度ファイルごとの色で表示します。</p>
+      </header>
+
+      <section>
+        <label for="apiKey">Google Maps API キー</label>
+        <div class="row">
+          <input id="apiKey" type="password" autocomplete="off" placeholder="AIza...">
+          <button id="loadMap">表示</button>
+        </div>
+        <p class="muted">キーはブラウザの localStorage のみに保存され、リポジトリには含まれません。</p>
+      </section>
+
+      <section>
+        <label for="search">検索</label>
+        <input id="search" type="search" placeholder="警察署・場所・状況で絞り込み">
+      </section>
+
+      <section class="filters" aria-label="表示データ">
+        <div class="check-line">
+          <label class="check-name" for="showR6"><span class="dot" style="background: var(--r6)"></span>令和6年</label>
+          <input id="showR6" type="checkbox" checked>
+        </div>
+        <div class="check-line">
+          <label class="check-name" for="showR7"><span class="dot" style="background: var(--r7)"></span>令和7年</label>
+          <input id="showR7" type="checkbox" checked>
+        </div>
+      </section>
+
+      <section class="legend">
+        <div class="legend-item"><span class="legend-name"><span class="dot" style="background: var(--r6)"></span>r6-01051231.csv</span><strong id="countR6">0</strong></div>
+        <div class="legend-item"><span class="legend-name"><span class="dot" style="background: var(--r7)"></span>r7-010112312.csv</span><strong id="countR7">0</strong></div>
+      </section>
+
+      <section class="stats">
+        <div class="stat-line"><span>表示中</span><strong id="visibleCount">0</strong></div>
+        <div class="stat-line"><span>読み込み件数</span><strong id="totalCount">0</strong></div>
+      </section>
+
+      <div id="status" class="status">API キーを入力して表示してください。</div>
+    </aside>
+    <div id="map" role="application" aria-label="熊出没地点マップ"></div>
+  </main>
+
+  <script>
+    const DATASETS = [
+      { id: 'r6', label: '令和6年', file: 'data/r6-01051231.csv', color: '#d94841', checkboxId: 'showR6', countId: 'countR6' },
+      { id: 'r7', label: '令和7年', file: 'data/r7-010112312.csv', color: '#2563eb', checkboxId: 'showR7', countId: 'countR7' }
+    ];
+
+    const YAMAGUCHI_CENTER = { lat: 34.1859, lng: 131.4714 };
+    const state = { map: null, info: null, rows: [], markers: [] };
+
+    const els = {
+      apiKey: document.querySelector('#apiKey'),
+      loadMap: document.querySelector('#loadMap'),
+      search: document.querySelector('#search'),
+      status: document.querySelector('#status'),
+      totalCount: document.querySelector('#totalCount'),
+      visibleCount: document.querySelector('#visibleCount')
+    };
+
+    const savedKey = localStorage.getItem('googleMapsApiKey') || new URLSearchParams(location.search).get('key') || '';
+    els.apiKey.value = savedKey;
+
+    els.loadMap.addEventListener('click', () => start());
+    els.apiKey.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') start();
+    });
+    els.search.addEventListener('input', updateMarkerVisibility);
+    DATASETS.forEach((dataset) => {
+      document.querySelector(`#${dataset.checkboxId}`).addEventListener('change', updateMarkerVisibility);
+    });
+
+    if (new URLSearchParams(location.search).get('key')) start();
+
+    async function start() {
+      const key = els.apiKey.value.trim();
+      if (!key) {
+        setStatus('Google Maps API キーを入力してください。', true);
+        return;
+      }
+
+      localStorage.setItem('googleMapsApiKey', key);
+      setStatus('Google Maps を読み込んでいます。');
+
+      try {
+        await loadGoogleMaps(key);
+        initMap();
+        await loadSightings();
+        renderMarkers();
+        setStatus('読み込みが完了しました。');
+      } catch (error) {
+        console.error(error);
+        setStatus(error.message || '読み込みに失敗しました。', true);
+      }
+    }
+
+    function loadGoogleMaps(key) {
+      if (window.google?.maps) return Promise.resolve();
+
+      return new Promise((resolve, reject) => {
+        const callbackName = `initGoogleMaps_${Date.now()}`;
+        window[callbackName] = () => {
+          delete window[callbackName];
+          resolve();
+        };
+
+        const script = document.createElement('script');
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${encodeURIComponent(key)}&callback=${callbackName}&v=weekly`;
+        script.async = true;
+        script.defer = true;
+        script.onerror = () => reject(new Error('Google Maps API の読み込みに失敗しました。API キーと許可ドメインを確認してください。'));
+        document.head.appendChild(script);
+      });
+    }
+
+    function initMap() {
+      if (state.map) return;
+
+      state.map = new google.maps.Map(document.querySelector('#map'), {
+        center: YAMAGUCHI_CENTER,
+        zoom: 9,
+        mapTypeControl: false,
+        streetViewControl: false,
+        fullscreenControl: true
+      });
+      state.info = new google.maps.InfoWindow();
+    }
+
+    async function loadSightings() {
+      if (state.rows.length) return;
+
+      const loaded = await Promise.all(DATASETS.map(async (dataset) => {
+        const text = await fetchCsvText(dataset.file);
+        const rows = parseCsv(text).map((row) => normalizeRow(row, dataset)).filter(Boolean);
+        document.querySelector(`#${dataset.countId}`).textContent = rows.length.toLocaleString('ja-JP');
+        return rows;
+      }));
+
+      state.rows = loaded.flat();
+      els.totalCount.textContent = state.rows.length.toLocaleString('ja-JP');
+    }
+
+    async function fetchCsvText(path) {
+      const response = await fetch(path, { cache: 'no-store' });
+      if (!response.ok) throw new Error(`${path} を取得できませんでした。`);
+
+      const buffer = await response.arrayBuffer();
+      const bytes = new Uint8Array(buffer);
+      if (bytes[0] === 0xff && bytes[1] === 0xfe) return new TextDecoder('utf-16le').decode(buffer);
+      if (bytes[0] === 0xfe && bytes[1] === 0xff) return new TextDecoder('utf-16be').decode(buffer);
+      return new TextDecoder('utf-8').decode(buffer);
+    }
+
+    function parseCsv(text) {
+      const rows = [];
+      let row = [];
+      let field = '';
+      let inQuotes = false;
+      const cleanText = text.replace(/^\ufeff/, '');
+
+      for (let index = 0; index < cleanText.length; index += 1) {
+        const char = cleanText[index];
+        const next = cleanText[index + 1];
+
+        if (char === '"') {
+          if (inQuotes && next === '"') {
+            field += '"';
+            index += 1;
+          } else {
+            inQuotes = !inQuotes;
+          }
+          continue;
+        }
+
+        if (char === ',' && !inQuotes) {
+          row.push(field);
+          field = '';
+          continue;
+        }
+
+        if ((char === '\n' || char === '\r') && !inQuotes) {
+          if (char === '\r' && next === '\n') index += 1;
+          row.push(field);
+          if (row.some((value) => value.trim() !== '')) rows.push(row);
+          row = [];
+          field = '';
+          continue;
+        }
+
+        field += char;
+      }
+
+      if (field || row.length) {
+        row.push(field);
+        if (row.some((value) => value.trim() !== '')) rows.push(row);
+      }
+
+      const headers = rows.shift()?.map((header) => header.trim()) || [];
+      return rows.map((values) => Object.fromEntries(headers.map((header, index) => [header, values[index]?.trim() || ''])));
+    }
+
+    function normalizeRow(row, dataset) {
+      const lat = Number.parseFloat(row['緯度']);
+      const lng = Number.parseFloat(row['経度']);
+      if (!Number.isFinite(lat) || !Number.isFinite(lng) || lat === 0 || lng === 0) return null;
+
+      return {
+        dataset,
+        number: row['追番'],
+        station: row['警察署'],
+        date: row['目撃(発見)年月日'],
+        time: row['目撃(発見)時間'],
+        place: row['目撃(発見)場所'],
+        situation: row['状況'],
+        count: row['頭数'],
+        length: row['体長'],
+        lat,
+        lng
+      };
+    }
+
+    function renderMarkers() {
+      state.markers.forEach(({ marker }) => marker.setMap(null));
+      state.markers = state.rows.map((row) => {
+        const marker = new google.maps.Marker({
+          position: { lat: row.lat, lng: row.lng },
+          map: state.map,
+          title: `${row.dataset.label} ${row.place}`,
+          icon: makePinIcon(row.dataset.color)
+        });
+
+        marker.addListener('click', () => {
+          state.info.setContent(makeInfoContent(row));
+          state.info.open({ map: state.map, anchor: marker });
+        });
+
+        return { row, marker };
+      });
+
+      fitToVisibleMarkers();
+      updateMarkerVisibility();
+    }
+
+    function updateMarkerVisibility() {
+      const query = els.search.value.trim().toLowerCase();
+      const enabled = new Set(DATASETS.filter((dataset) => document.querySelector(`#${dataset.checkboxId}`).checked).map((dataset) => dataset.id));
+      let visibleCount = 0;
+
+      state.markers.forEach(({ row, marker }) => {
+        const haystack = [row.station, row.place, row.situation, row.date, row.time].join(' ').toLowerCase();
+        const visible = enabled.has(row.dataset.id) && (!query || haystack.includes(query));
+        marker.setVisible(visible);
+        if (visible) visibleCount += 1;
+      });
+
+      els.visibleCount.textContent = visibleCount.toLocaleString('ja-JP');
+    }
+
+    function fitToVisibleMarkers() {
+      const bounds = new google.maps.LatLngBounds();
+      state.rows.forEach((row) => bounds.extend({ lat: row.lat, lng: row.lng }));
+      if (!bounds.isEmpty()) state.map.fitBounds(bounds, 48);
+    }
+
+    function makePinIcon(color) {
+      const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="34" height="44" viewBox="0 0 34 44"><path fill="${color}" stroke="white" stroke-width="2" d="M17 1C8.2 1 1 8.1 1 16.9c0 11.9 16 26 16 26s16-14.1 16-26C33 8.1 25.8 1 17 1Z"/><circle cx="17" cy="16.7" r="5.8" fill="white" opacity=".92"/></svg>`;
+      return {
+        url: `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`,
+        scaledSize: new google.maps.Size(34, 44),
+        anchor: new google.maps.Point(17, 42)
+      };
+    }
+
+    function makeInfoContent(row) {
+      return `<article class="info">
+        <h2>${escapeHtml(row.place || '地点情報')}</h2>
+        <dl>
+          <dt>年度</dt><dd>${escapeHtml(row.dataset.label)}</dd>
+          <dt>警察署</dt><dd>${escapeHtml(row.station)}</dd>
+          <dt>日時</dt><dd>${escapeHtml([row.date, row.time].filter(Boolean).join(' '))}</dd>
+          <dt>頭数</dt><dd>${escapeHtml(row.count)}</dd>
+          <dt>体長</dt><dd>${escapeHtml(row.length)}</dd>
+          <dt>状況</dt><dd>${escapeHtml(row.situation)}</dd>
+        </dl>
+      </article>`;
+    }
+
+    function escapeHtml(value) {
+      return String(value || '').replace(/[&<>"]/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[char]));
+    }
+
+    function setStatus(message, isError = false) {
+      els.status.textContent = message;
+      els.status.classList.toggle('error', isError);
+    }
+  </script>
+</body>
+</html>
