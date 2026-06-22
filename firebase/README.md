@@ -2,8 +2,6 @@
 
 このレポジトリには Web技術（HTML,CSS,JavaScript）で実現された ToDo アプリが配置されており、Firebase の機能を用いてデプロイ（インターネット上に公開）する事ができます。
 
-Firebase とは何かを知りたい方は [イベント開催時の資料](docs/js_firebase_tutorial_for_github.pdf) も併せてご確認ください。
-
 ## チュートリアル
 チュートリアルは下記のリンクをクリックして始めましょう
 
