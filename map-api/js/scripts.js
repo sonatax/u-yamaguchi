@@ -1,4 +1,4 @@
-mapboxgl.accessToken = '取得したaccessTokenを書いてね';
+mapboxgl.accessToken = 'write access token';
 var allMarkers = [];
 
 // 地図を初期化する
@@ -15,9 +15,6 @@ function initMap() {
   // ここではマップを表示せず、Places Libraryの機能のみを使用します
   const map = new google.maps.Map(document.createElement('div'));
 
-  // Placesサービスを作成
-  const placesService = new google.maps.places.PlacesService(map);
-
   // Mapboxでの検索ボタンクリックイベント
   document.getElementById('search-button').addEventListener('click', function() {
     let searchTerm = document.getElementById('search-term').value;
@@ -27,7 +24,7 @@ function initMap() {
           .then(data => {
               if (data.features.length > 0) {
                   const location = data.features[0].center;
-                  searchHotels(location[1], location[0], placesService);
+                  searchHotels(location[1], location[0]);
                   mapbox.flyTo({
                       center: location,
                       zoom: 14
@@ -46,35 +43,45 @@ function initMap() {
 }
 
 // 位置（緯度、経度）を基に周辺のホテル情報を検索する関数
-function searchHotels(lat, lng, placesService) {
-  // Places APIのリクエストを設定
-  const request = {
-    location: new google.maps.LatLng(lat, lng),
-    radius: '3000', // 検索半径（メートル）
-    type: ['lodging'] // 宿泊施設を検索
-  };
+async function searchHotels(lat, lng) {
+  const { Place, SearchNearbyRankPreference } = await google.maps.importLibrary("places");
+
+  const { places } = await Place.searchNearby({
+    fields: ["displayName", "location"],
+    locationRestriction: {
+      center: { lat, lng },
+      radius: 3000
+    },
+    includedPrimaryTypes: ["lodging"],
+    maxResultCount: 20,
+    rankPreference: SearchNearbyRankPreference.POPULARITY
+  });
 
   // Google Places APIの周辺検索を実行
-  placesService.nearbySearch(request, (results, status) => {
-    if (status === google.maps.places.PlacesServiceStatus.OK && results) {
-      // 現在の地図上のマーカーをクリアする
-      clearMarkers();
+  if(places.length === 0) {
+    alert('No hotels found');
+  } else {
+    places.forEach((place) => {
+      if (!place.location) return;
 
-      // 検索結果を地図にマーカーとして表示
-      results.forEach(place => {
-        var popup = new mapboxgl.Popup({ offset: 25 })
-            .setText(place.name);
-        var marker = new mapboxgl.Marker()
-            .setLngLat([place.geometry.location.lng(), place.geometry.location.lat()])
-            .setPopup(popup)
-            .addTo(mapbox);
+      const placeLat = typeof place.location.lat === "function"
+        ? place.location.lat()
+        : place.location.lat;
+      const placeLng = typeof place.location.lng === "function"
+        ? place.location.lng()
+        : place.location.lng;
 
-        allMarkers.push(marker);
-      });
-    } else {
-      alert('No hotels found');
-    }
-  });
+      const popup = new mapboxgl.Popup({ offset: 25 })
+        .setText(place.displayName || "");
+
+      const marker = new mapboxgl.Marker()
+        .setLngLat([placeLng, placeLat])
+        .setPopup(popup)
+        .addTo(mapbox);
+
+      allMarkers.push(marker);
+    });
+  }
 }
 
 // delete all markers
