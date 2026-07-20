@@ -399,6 +399,8 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Bluetooth is used to connect to Stack-chan and send driving status events.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Location speed is used to detect driving status and sudden braking.";
+				INFOPLIST_KEY_NSMotionUsageDescription = "Motion sensors are used to detect sudden braking while driving.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -437,6 +439,8 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Bluetooth is used to connect to Stack-chan and send driving status events.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Location speed is used to detect driving status and sudden braking.";
+				INFOPLIST_KEY_NSMotionUsageDescription = "Motion sensors are used to detect sudden braking while driving.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

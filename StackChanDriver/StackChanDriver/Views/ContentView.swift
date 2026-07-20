@@ -1,23 +1,41 @@
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject private var bleManager = StackChanBLEManager()
+    @ObservedObject var bleManager: StackChanBLEManager
+    @ObservedObject var monitoringManager: DrivingMonitoringManager
 
     var body: some View {
-        NavigationStack {
-            ScrollView {
-                VStack(spacing: 16) {
-                    ConnectionStatusView(bleManager: bleManager)
-                    EventTestView(bleManager: bleManager)
-                }
-                .padding()
+        TabView {
+            MonitoringView(
+                bleManager: bleManager,
+                monitoringManager: monitoringManager
+            )
+            .tabItem {
+                Label("運転見守り", systemImage: "car.fill")
             }
-            .navigationTitle("Stack-chan Driver")
-            .background(Color(.systemGroupedBackground))
+
+            BLETestView(
+                bleManager: bleManager,
+                isMonitoring: monitoringManager.isMonitoring ||
+                    monitoringManager.isAutomaticTransmissionActive
+            )
+            .tabItem {
+                Label("BLEテスト", systemImage: "antenna.radiowaves.left.and.right")
+            }
+        }
+        .task {
+            if bleManager.connectionState == .disconnected,
+               bleManager.discoveryState != .discovered {
+                bleManager.startScanning()
+            }
         }
     }
 }
 
 #Preview {
-    ContentView()
+    let bleManager = StackChanBLEManager()
+    ContentView(
+        bleManager: bleManager,
+        monitoringManager: DrivingMonitoringManager(bleManager: bleManager)
+    )
 }

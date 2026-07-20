@@ -2,3 +2,5 @@
 StackChanDriver/.build/
 StackChanDriver/.build-test/
 StackChanDriver/DerivedData/
+StackChanDriver/.build-sensors/
+StackChanDriver/.build-test-sensors/

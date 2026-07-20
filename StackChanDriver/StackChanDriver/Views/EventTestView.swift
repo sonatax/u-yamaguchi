@@ -2,6 +2,7 @@ import SwiftUI
 
 struct EventTestView: View {
     @ObservedObject var bleManager: StackChanBLEManager
+    let isEnabled: Bool
     @State private var selectedLevels: [StackChanEvent: AlertLevel] = [
         .suddenBrake: .low,
         .longDrive: .low,
@@ -43,7 +44,7 @@ struct EventTestView: View {
             .frame(maxWidth: .infinity)
         }
         .buttonStyle(.bordered)
-        .disabled(!bleManager.connectionState.isReady)
+        .disabled(!bleManager.connectionState.isReady || !isEnabled)
     }
 
     private func alertEventRow(_ event: StackChanEvent) -> some View {
@@ -69,7 +70,7 @@ struct EventTestView: View {
             }
             .buttonStyle(.borderedProminent)
             .frame(maxWidth: .infinity, alignment: .trailing)
-            .disabled(!bleManager.connectionState.isReady)
+            .disabled(!bleManager.connectionState.isReady || !isEnabled)
         }
         .padding(.vertical, 4)
     }

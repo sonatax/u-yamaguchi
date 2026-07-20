@@ -2,6 +2,7 @@ import SwiftUI
 
 struct ConnectionStatusView: View {
     @ObservedObject var bleManager: StackChanBLEManager
+    var controlsEnabled = true
 
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {
@@ -32,6 +33,7 @@ struct ConnectionStatusView: View {
                 }
                 .buttonStyle(.borderedProminent)
                 .disabled(
+                    !controlsEnabled ||
                     bleManager.discoveryState != .discovered ||
                     bleManager.connectionState != .disconnected
                 )
@@ -40,13 +42,14 @@ struct ConnectionStatusView: View {
                     bleManager.disconnect()
                 }
                 .buttonStyle(.bordered)
-                .disabled(bleManager.connectionState == .disconnected)
+                .disabled(!controlsEnabled || bleManager.connectionState == .disconnected)
 
                 Button("再スキャン") {
                     bleManager.startScanning()
                 }
                 .buttonStyle(.bordered)
                 .disabled(
+                    !controlsEnabled ||
                     bleManager.bluetoothState != .poweredOn ||
                     bleManager.connectionState != .disconnected
                 )
@@ -55,9 +58,6 @@ struct ConnectionStatusView: View {
         }
         .padding()
         .background(.background, in: RoundedRectangle(cornerRadius: 16))
-        .task {
-            bleManager.startScanning()
-        }
     }
 
     private func statusRow(_ title: String, value: String) -> some View {
