@@ -1,3 +1,4 @@
-./StackChanDriver/.build/
-./StackChanDriver/.build-test/
-./StackChanDriver/DerivedData/
+# Stack-chan dir の build / test 周り
+StackChanDriver/.build/
+StackChanDriver/.build-test/
+StackChanDriver/DerivedData/
