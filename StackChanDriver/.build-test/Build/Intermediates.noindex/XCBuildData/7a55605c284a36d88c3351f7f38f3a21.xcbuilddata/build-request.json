@@ -1,0 +1,77 @@
+{
+  "buildCommand" : {
+    "command" : "build",
+    "skipDependencies" : false,
+    "style" : "buildAndRun"
+  },
+  "configuredTargets" : [
+    {
+      "guid" : "86674ff596eda449731c99f6572a1d6f5f34081ab9d11d9911d858fe2d6d1fee"
+    },
+    {
+      "guid" : "86674ff596eda449731c99f6572a1d6fb412e48342b038c509feea167be6f826"
+    },
+    {
+      "guid" : "86674ff596eda449731c99f6572a1d6f99e20a782418603e8a0c79b558586474"
+    }
+  ],
+  "containerPath" : "/Users/sonatax/Documents/git/StackChanDriver/StackChanDriver.xcodeproj",
+  "continueBuildingAfterErrors" : false,
+  "dependencyScope" : "workspace",
+  "enableIndexBuildArena" : false,
+  "hideShellScriptEnvironment" : false,
+  "parameters" : {
+    "action" : "build",
+    "activeArchitecture" : "arm64",
+    "activeRunDestination" : {
+      "disableOnlyActiveArch" : false,
+      "platform" : "iphonesimulator",
+      "sdk" : "iphonesimulator26.2",
+      "sdkVariant" : "iphonesimulator",
+      "supportedArchitectures" : [
+        "arm64"
+      ],
+      "targetArchitecture" : "arm64"
+    },
+    "arenaInfo" : {
+      "buildIntermediatesPath" : "/Users/sonatax/Documents/git/StackChanDriver/.build-test/Build/Intermediates.noindex",
+      "buildProductsPath" : "/Users/sonatax/Documents/git/StackChanDriver/.build-test/Build/Products",
+      "derivedDataPath" : "/Users/sonatax/Documents/git/StackChanDriver/.build-test",
+      "indexDataStoreFolderPath" : "/Users/sonatax/Documents/git/StackChanDriver/.build-test/Index.noindex/DataStore",
+      "indexEnableDataStore" : true,
+      "indexPCHPath" : "/Users/sonatax/Documents/git/StackChanDriver/.build-test/Index.noindex/PrecompiledHeaders",
+      "pchPath" : "/Users/sonatax/Documents/git/StackChanDriver/.build-test/Build/Intermediates.noindex/PrecompiledHeaders"
+    },
+    "configurationName" : "Debug",
+    "overrides" : {
+      "commandLine" : {
+        "table" : {
+          "CODE_SIGNING_ALLOWED" : "NO"
+        }
+      },
+      "synthesized" : {
+        "table" : {
+          "ASSETCATALOG_FILTER_FOR_DEVICE_MODEL" : "iPhone18,1",
+          "ASSETCATALOG_FILTER_FOR_DEVICE_OS_VERSION" : "26.3.1",
+          "ASSETCATALOG_FILTER_FOR_THINNING_DEVICE_CONFIGURATION" : "iPhone18,1",
+          "BUILD_ACTIVE_RESOURCES_ONLY" : "YES",
+          "CLANG_COVERAGE_MAPPING" : "YES",
+          "CLANG_PROFILE_DATA_DIRECTORY" : "/Users/sonatax/Documents/git/StackChanDriver/.build-test/Build/ProfileData",
+          "ENABLE_PREVIEWS" : "NO",
+          "ENABLE_XOJIT_PREVIEWS" : "YES",
+          "ONLY_ACTIVE_ARCH" : "YES",
+          "TARGET_DEVICE_IDENTIFIER" : "EFB53FDE-6F91-4765-8D3D-22D6A141D80C",
+          "TARGET_DEVICE_MODEL" : "iPhone18,1",
+          "TARGET_DEVICE_OS_VERSION" : "26.3.1",
+          "TARGET_DEVICE_PLATFORM_NAME" : "iphonesimulator"
+        }
+      }
+    }
+  },
+  "schemeCommand" : "test",
+  "showNonLoggedProgress" : true,
+  "useDryRun" : false,
+  "useImplicitDependencies" : true,
+  "useLegacyBuildLocations" : false,
+  "useParallelTargets" : true
+}

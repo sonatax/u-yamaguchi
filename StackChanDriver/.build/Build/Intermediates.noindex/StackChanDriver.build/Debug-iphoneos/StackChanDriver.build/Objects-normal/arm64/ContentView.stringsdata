@@ -1,0 +1,16 @@
+{
+  "source": "/Users/sonatax/Documents/git/StackChanDriver/StackChanDriver/Views/ContentView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Stack-chan Driver",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 15
+        }
+      }
+    ]
+  },
+  "version": 1
+}

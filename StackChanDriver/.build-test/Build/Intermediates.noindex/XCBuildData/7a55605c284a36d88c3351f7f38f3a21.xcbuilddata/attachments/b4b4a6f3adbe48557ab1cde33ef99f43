@@ -1,0 +1,29 @@
+{
+  "" : {
+    "diagnostics" : "/Users/sonatax/Documents/git/StackChanDriver/.build-test/Build/Intermediates.noindex/StackChanDriver.build/Debug-iphonesimulator/StackChanDriverUITests.build/Objects-normal/arm64/StackChanDriverUITests-primary.dia",
+    "emit-module-dependencies" : "/Users/sonatax/Documents/git/StackChanDriver/.build-test/Build/Intermediates.noindex/StackChanDriver.build/Debug-iphonesimulator/StackChanDriverUITests.build/Objects-normal/arm64/StackChanDriverUITests-primary-emit-module.d",
+    "emit-module-diagnostics" : "/Users/sonatax/Documents/git/StackChanDriver/.build-test/Build/Intermediates.noindex/StackChanDriver.build/Debug-iphonesimulator/StackChanDriverUITests.build/Objects-normal/arm64/StackChanDriverUITests-primary-emit-module.dia",
+    "pch" : "/Users/sonatax/Documents/git/StackChanDriver/.build-test/Build/Intermediates.noindex/StackChanDriver.build/Debug-iphonesimulator/StackChanDriverUITests.build/Objects-normal/arm64/StackChanDriverUITests-primary-Bridging-header.pch",
+    "swift-dependencies" : "/Users/sonatax/Documents/git/StackChanDriver/.build-test/Build/Intermediates.noindex/StackChanDriver.build/Debug-iphonesimulator/StackChanDriverUITests.build/Objects-normal/arm64/StackChanDriverUITests-primary.swiftdeps"
+  },
+  "/Users/sonatax/Documents/git/StackChanDriver/StackChanDriverUITests/StackChanDriverUITests.swift" : {
+    "const-values" : "/Users/sonatax/Documents/git/StackChanDriver/.build-test/Build/Intermediates.noindex/StackChanDriver.build/Debug-iphonesimulator/StackChanDriverUITests.build/Objects-normal/arm64/StackChanDriverUITests.swiftconstvalues",
+    "dependencies" : "/Users/sonatax/Documents/git/StackChanDriver/.build-test/Build/Intermediates.noindex/StackChanDriver.build/Debug-iphonesimulator/StackChanDriverUITests.build/Objects-normal/arm64/StackChanDriverUITests.d",
+    "diagnostics" : "/Users/sonatax/Documents/git/StackChanDriver/.build-test/Build/Intermediates.noindex/StackChanDriver.build/Debug-iphonesimulator/StackChanDriverUITests.build/Objects-normal/arm64/StackChanDriverUITests.dia",
+    "index-unit-output-path" : "/StackChanDriver.build/Debug-iphonesimulator/StackChanDriverUITests.build/Objects-normal/arm64/StackChanDriverUITests.o",
+    "llvm-bc" : "/Users/sonatax/Documents/git/StackChanDriver/.build-test/Build/Intermediates.noindex/StackChanDriver.build/Debug-iphonesimulator/StackChanDriverUITests.build/Objects-normal/arm64/StackChanDriverUITests.bc",
+    "object" : "/Users/sonatax/Documents/git/StackChanDriver/.build-test/Build/Intermediates.noindex/StackChanDriver.build/Debug-iphonesimulator/StackChanDriverUITests.build/Objects-normal/arm64/StackChanDriverUITests.o",
+    "swift-dependencies" : "/Users/sonatax/Documents/git/StackChanDriver/.build-test/Build/Intermediates.noindex/StackChanDriver.build/Debug-iphonesimulator/StackChanDriverUITests.build/Objects-normal/arm64/StackChanDriverUITests.swiftdeps",
+    "swiftmodule" : "/Users/sonatax/Documents/git/StackChanDriver/.build-test/Build/Intermediates.noindex/StackChanDriver.build/Debug-iphonesimulator/StackChanDriverUITests.build/Objects-normal/arm64/StackChanDriverUITests~partial.swiftmodule"
+  },
+  "/Users/sonatax/Documents/git/StackChanDriver/StackChanDriverUITests/StackChanDriverUITestsLaunchTests.swift" : {
+    "const-values" : "/Users/sonatax/Documents/git/StackChanDriver/.build-test/Build/Intermediates.noindex/StackChanDriver.build/Debug-iphonesimulator/StackChanDriverUITests.build/Objects-normal/arm64/StackChanDriverUITestsLaunchTests.swiftconstvalues",
+    "dependencies" : "/Users/sonatax/Documents/git/StackChanDriver/.build-test/Build/Intermediates.noindex/StackChanDriver.build/Debug-iphonesimulator/StackChanDriverUITests.build/Objects-normal/arm64/StackChanDriverUITestsLaunchTests.d",
+    "diagnostics" : "/Users/sonatax/Documents/git/StackChanDriver/.build-test/Build/Intermediates.noindex/StackChanDriver.build/Debug-iphonesimulator/StackChanDriverUITests.build/Objects-normal/arm64/StackChanDriverUITestsLaunchTests.dia",
+    "index-unit-output-path" : "/StackChanDriver.build/Debug-iphonesimulator/StackChanDriverUITests.build/Objects-normal/arm64/StackChanDriverUITestsLaunchTests.o",
+    "llvm-bc" : "/Users/sonatax/Documents/git/StackChanDriver/.build-test/Build/Intermediates.noindex/StackChanDriver.build/Debug-iphonesimulator/StackChanDriverUITests.build/Objects-normal/arm64/StackChanDriverUITestsLaunchTests.bc",
+    "object" : "/Users/sonatax/Documents/git/StackChanDriver/.build-test/Build/Intermediates.noindex/StackChanDriver.build/Debug-iphonesimulator/StackChanDriverUITests.build/Objects-normal/arm64/StackChanDriverUITestsLaunchTests.o",
+    "swift-dependencies" : "/Users/sonatax/Documents/git/StackChanDriver/.build-test/Build/Intermediates.noindex/StackChanDriver.build/Debug-iphonesimulator/StackChanDriverUITests.build/Objects-normal/arm64/StackChanDriverUITestsLaunchTests.swiftdeps",
+    "swiftmodule" : "/Users/sonatax/Documents/git/StackChanDriver/.build-test/Build/Intermediates.noindex/StackChanDriver.build/Debug-iphonesimulator/StackChanDriverUITests.build/Objects-normal/arm64/StackChanDriverUITestsLaunchTests~partial.swiftmodule"
+  }
+}
