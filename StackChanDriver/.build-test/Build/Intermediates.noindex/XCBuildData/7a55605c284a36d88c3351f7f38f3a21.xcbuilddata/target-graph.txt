@@ -1,6 +1,0 @@
-Target dependency graph (3 targets)
-Target 'StackChanDriverTests' in project 'StackChanDriver'
-➜ Explicit dependency on target 'StackChanDriver' in project 'StackChanDriver'
-Target 'StackChanDriverUITests' in project 'StackChanDriver'
-➜ Explicit dependency on target 'StackChanDriver' in project 'StackChanDriver'
-Target 'StackChanDriver' in project 'StackChanDriver' (no dependencies)
